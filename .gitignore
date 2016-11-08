@@ -1,0 +1,9 @@
+**/*.js
+**/*.js.map
+**/*.d.ts
+**/*.ngfactory.js
+
+npm-debug.log/
+
+node_modules/
+dist/
