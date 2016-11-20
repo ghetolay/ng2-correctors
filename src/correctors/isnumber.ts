@@ -6,9 +6,10 @@ export function isNumber(invert = false): CorrectorFn {
   return (value: any, prevValue: any, hasError: boolean, invert = false): CorrectorError => {
     if (invert != isNaN(value))
       return {
-        isNumber: {
-          correctedValue: prevValue,
-          current: value
+      	correctedValue: prevValue,
+        error: {
+          current: value,
+          shouldBeNumber: !invert
         }
       };
   }
@@ -20,9 +21,11 @@ export function isNumber(invert = false): CorrectorFn {
 })
 export class IsNumberCorrector extends AbstractCorrector {
 
-  @Input() isNumber_ = true;
+	name = 'isNumber';
 
-  createCorrector(): CorrectorFn {
-    return isNumber(this.isNumber_);
-  }
+  	@Input() isNumber_ = true;
+
+  	createCorrector(): CorrectorFn {
+    	return isNumber(this.isNumber_);
+  	}
 }

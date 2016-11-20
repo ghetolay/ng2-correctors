@@ -16,12 +16,12 @@ export function maxInt(maxInt: number, length = maxInt == Infinity ? Infinity : 
       let intValue = +value;
       if ( intValue > maxInt)
         return {
-          maxInt: {
-            correctedValue: prevValue,
-            max: maxInt,
-            current: intValue
+          correctedValue: prevValue,
+          error: {
+          	max: maxInt,
+           	current: intValue
           }
-        };
+        }
     }
   }
 }
@@ -32,32 +32,34 @@ export function maxInt(maxInt: number, length = maxInt == Infinity ? Infinity : 
 })
 export class MaxIntCorrector extends AbstractCorrector implements OnChanges {
 
-  @Input() maxInt_;
-  private length;
+	name = 'maxInt';
 
-  implicits: CorrectorFn[];
+	@Input() maxInt_: number;
+  	private length: number;
 
-  ngOnChanges(changes: SimpleChanges) {
-    this.length = this.maxInt_ == null || this.maxInt_ == undefined ?
-      null : this.maxInt_.toString().length;
+  	implicits: CorrectorFn[];
 
-    this.implicits = this.length == null ? [] : [maxLength(this.length)];
-    this.implicits.push(isNumber());
+  	ngOnChanges(changes: SimpleChanges) {
+    	this.length = this.maxInt_ == null || this.maxInt_ == undefined ?
+      		null : this.maxInt_.toString().length;
 
-    super.ngOnChanges(changes);
-  }
+    	this.implicits = this.length == null ? [] : [maxLength(this.length)];
+    	this.implicits.push(isNumber());
 
-  /*
-   * TODO BUG use case:
-   * maxInt = 12
-   * value is 12
-   * when delete '1' with suppr key, since value can't start with 2 we return previous value
-   * => deleting first char has no effect
-   * => can't use suppr can only delete using backspace
-   * => also cursor get set at the end since we reset the value
-   */
-  createCorrector(): CorrectorFn {
-    if( this.maxInt_ != null && this.maxInt_ != undefined)
-      return maxInt(this.maxInt_, this.length);
-  }
+    	super.ngOnChanges(changes);
+  	}
+
+  	/*
+   	 * TODO BUG use case:
+   	 * maxInt = 12
+   	 * value is 12
+   	 * when delete '1' with suppr key, since value can't start with 2 we return previous value
+   	 * => deleting first char has no effect
+   	 * => can't use suppr can only delete using backspace
+   	 * => also cursor get set at the end since we reset the value
+   	 */
+  	createCorrector(): CorrectorFn {
+    	if( this.maxInt_ != null && this.maxInt_ != undefined)
+      	return maxInt(this.maxInt_, this.length);
+  	}
 }

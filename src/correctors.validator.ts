@@ -2,7 +2,7 @@ import { OpaqueToken, forwardRef, Directive, OnInit, OnDestroy, Optional, Inject
 
 import { NG_VALIDATORS, Validator, FormControl } from '@angular/forms';
 
-import { Corrector, CORRECTOR_TOKEN } from './model';
+import { Corrector, CORRECTOR_TOKEN, CorrectorError } from './model';
 
 @Directive({
   selector: '[corrValidator]',
@@ -19,7 +19,7 @@ export class CorrectorsValidator implements Validator {
   @Output() onValid = new EventEmitter<string>();
 
   private el: HTMLInputElement;
-  private prevValue = null;
+  private prevValue: any = null;
   private unlisten: Function;
 
   private correctors: Corrector[];
@@ -41,17 +41,15 @@ export class CorrectorsValidator implements Validator {
     let errors = {};
     let hasError = false;
 
-    let parseResult = result => {
+    let parseResult = (result: CorrectorError) => {
       if(result) {
-        //should be only one
-        for( let name in result) {
-          let corrResult = result[name];
-          if (corrResult.hasOwnProperty('correctedValue'))
-            value = corrResult.correctedValue;
-        }
+        if( result.hasOwnProperty('correctedValue') )
+            value = result.correctedValue;
 
-        hasError = true;
-        Object.assign(errors, result);
+        if( result.error ) {
+        	hasError = true;
+        	Object.assign(errors, result.error);
+    	}
       }
     };
 
@@ -67,15 +65,16 @@ export class CorrectorsValidator implements Validator {
 
     this.prevValue = value;
 
-    if (hasError) {
+    if (value !== c.value)
       c.setValue(value, {
         onlySelf: true,
         emitEvent: false,
         emitModelToViewChange: true,
         emitViewToModelChange: true //depends
       });
+
+  	if(hasError)
       this.onError.emit(errors);
-    }
     else
       this.onValid.emit(value);
 

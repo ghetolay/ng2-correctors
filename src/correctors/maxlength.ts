@@ -8,11 +8,11 @@ export function maxLength(maxLength: number): CorrectorFn {
       let lengthDiff = value.length - maxLength;
       if (lengthDiff > 0)
         return {
-          maxLength: {
-            max: maxLength,
-            current: value,
-            correctedValue: value.substr(0, lengthDiff)
-          }
+        	correctedValue: value.substr(0, maxLength),
+        	error: {
+            	max: maxLength,
+            	current: value,
+        	}
         };
     }
   }
@@ -24,10 +24,12 @@ export function maxLength(maxLength: number): CorrectorFn {
 })
 export class MaxLengthCorrector extends AbstractCorrector {
 
-  @Input() maxLength_;
+	name = "maxLength";
 
-  createCorrector(): CorrectorFn {
-    if(this.maxLength_ != null && this.maxLength_ != undefined)
-      return maxLength(this.maxLength_);
-  }
+  	@Input() maxLength_: number;
+
+  	createCorrector(): CorrectorFn {
+    	if(this.maxLength_ != null && this.maxLength_ != undefined)
+      	return maxLength(this.maxLength_);
+  	}
 }

@@ -28,11 +28,11 @@ export class IfCorrErrors implements OnChanges, OnDestroy {
       this.subscriptions.forEach( s => s.unsubscribe() );
 
       this.subscriptions = [
-        this.correctors.onError.subscribe( err => {
+        this.correctors.onError.subscribe( (err: {}) => {
           this.show();
           this.view.context['errors'] = err;
         }),
-        this.correctors.onValid.subscribe( v => {
+        this.correctors.onValid.subscribe( (v: string) => {
           this.hide();
         })
       ];

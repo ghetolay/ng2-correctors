@@ -3,18 +3,17 @@ import { OpaqueToken, forwardRef, Provider, OnChanges, SimpleChanges } from '@an
 export const CORRECTOR_TOKEN = new OpaqueToken('correctors');
 
 export interface CorrectorError {
-  [validatorName: string] : {
-    correctedValue?: any;
-    [name: string]: any
-  }
+   correctedValue?: any;
+   error?: {[name: string]: any};
 }
 
 export interface CorrectorFn { (value: any, prevValue: any, hasError: boolean): CorrectorError }
 
 export interface Corrector {
-  implicits?: CorrectorFn[];
+	name: string;
+  	implicits?: CorrectorFn[];
 
-  validate: CorrectorFn;
+  	validate: CorrectorFn;
 }
 
 //helpers
@@ -27,6 +26,8 @@ export function correctorProvider(className: Function): Provider {
 }
 
 export abstract class AbstractCorrector implements Corrector, OnChanges {
+  abstract name: string;
+
   private onChange: () => void;
   private corrector = NULL_CORRECTOR;
 
