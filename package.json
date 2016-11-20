@@ -10,8 +10,7 @@
   "typings": "dist/index.d.ts",
   "module": "dist/index.js",
   "scripts": {
-  	"build": "tsc && ngc",
-  	"prepublish": "build"
+  	"build": "tsc && ngc"
   },
   "keywords": [
     "angular",
