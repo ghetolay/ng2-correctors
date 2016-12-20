@@ -3,7 +3,7 @@ import { Directive, Input, Renderer, ElementRef, OnChanges, forwardRef } from '@
 import { CorrectorFn, CorrectorError, AbstractCorrector, correctorProvider } from '../model';
 
 export function minLength(minLength: number, placeholder: string): CorrectorFn {
-	return (value: any, prevValue: any, hasError: boolean, ): CorrectorError => {
+	return (value: any, prevValue: any, hasError: boolean, ): CorrectorError | undefined => {
 		value = value || '';
 
 		let lengthDiff = minLength - value.length;
@@ -35,7 +35,7 @@ export class MinLengthCorrector extends AbstractCorrector {
 			this._placeholder = placeholder.substr(1, 1);
 	}
 
-	createCorrector(): CorrectorFn {
+	createCorrector(): CorrectorFn | undefined {
 		if(this.minLength_ != null && this.minLength_ != undefined)
 			return minLength(this.minLength_, this._placeholder);
 	}

@@ -6,7 +6,7 @@ import { maxLength } from './maxlength';
 import { isNumber } from './isnumber';
 
 export function maxInt(maxInt: number, length = maxInt == Infinity ? Infinity : maxInt.toString().length): CorrectorFn {
-  return (initialValue: any, prevValue: any, hasError: boolean): CorrectorError => {
+  return (initialValue: any, prevValue: any, hasError: boolean): CorrectorError | undefined => {
     if (!hasError && initialValue && initialValue.length > 0) {
       let value = initialValue;
       let lengthDiff = length - value.length;
@@ -35,7 +35,7 @@ export class MaxIntCorrector extends AbstractCorrector implements OnChanges {
 	name = 'maxInt';
 
 	@Input() maxInt_: number;
-  	private length: number;
+  	private length: number | null;
 
   	implicits: CorrectorFn[];
 
@@ -58,8 +58,8 @@ export class MaxIntCorrector extends AbstractCorrector implements OnChanges {
    	 * => can't use suppr can only delete using backspace
    	 * => also cursor get set at the end since we reset the value
    	 */
-  	createCorrector(): CorrectorFn {
-    	if( this.maxInt_ != null && this.maxInt_ != undefined)
+  	createCorrector(): CorrectorFn | undefined {
+    	if ( this.maxInt_ != null && this.maxInt_ != undefined && this.length != null)
       	return maxInt(this.maxInt_, this.length);
   	}
 }

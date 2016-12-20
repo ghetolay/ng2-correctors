@@ -3,7 +3,7 @@ import { Directive, Input, Renderer, ElementRef, OnChanges, forwardRef } from '@
 import { CorrectorFn, CorrectorError, AbstractCorrector, correctorProvider } from '../model';
 
 export function maxLength(maxLength: number): CorrectorFn {
-  return (value: any, prevValue: any, hasError: boolean, ): CorrectorError => {
+  return (value: any, prevValue: any, hasError: boolean, ): CorrectorError | undefined => {
     if(value && value.length > 0) {
       let lengthDiff = value.length - maxLength;
       if (lengthDiff > 0)
@@ -26,9 +26,9 @@ export class MaxLengthCorrector extends AbstractCorrector {
 
 	name = "maxLength";
 
-  	@Input() maxLength_: number;
+  	@Input() maxLength_: number | null | undefined;
 
-  	createCorrector(): CorrectorFn {
+  	createCorrector(): CorrectorFn | undefined {
     	if(this.maxLength_ != null && this.maxLength_ != undefined)
       	return maxLength(this.maxLength_);
   	}

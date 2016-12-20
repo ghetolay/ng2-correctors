@@ -7,7 +7,7 @@ export interface CorrectorError {
    error?: {[name: string]: any};
 }
 
-export interface CorrectorFn { (value: any, prevValue: any, hasError: boolean): CorrectorError }
+export interface CorrectorFn { (value: any, prevValue: any, hasError: boolean): CorrectorError | undefined }
 
 export interface Corrector {
 	name: string;
@@ -31,7 +31,7 @@ export abstract class AbstractCorrector implements Corrector, OnChanges {
   private onChange: () => void;
   private corrector = NULL_CORRECTOR;
 
-  validate(value: any, prevValue: any, hasError: boolean): CorrectorError {
+  validate(value: any, prevValue: any, hasError: boolean): CorrectorError | undefined {
     return this.corrector(value, prevValue, hasError);
   }
 
@@ -43,7 +43,7 @@ export abstract class AbstractCorrector implements Corrector, OnChanges {
 
   registerOnValidatorChange(fn: () => void) { this.onChange = fn; }
 
-  abstract createCorrector(): CorrectorFn
+  abstract createCorrector(): CorrectorFn | undefined
 }
 
-export const NULL_CORRECTOR: CorrectorFn = () => null;
+export const NULL_CORRECTOR: CorrectorFn = () => undefined;

@@ -41,7 +41,7 @@ export class CorrectorsValidator implements Validator {
     let errors = {};
     let hasError = false;
 
-    let parseResult = (result: CorrectorError) => {
+    let parseResult = (result: CorrectorError | undefined) => {
       if(result) {
         if( result.hasOwnProperty('correctedValue') )
             value = result.correctedValue;
@@ -78,7 +78,8 @@ export class CorrectorsValidator implements Validator {
     else
       this.onValid.emit(value);
 
-    return null;
+    // TODO type definition on angular should be {[key: string]: any} | void
+    return <any>null;
   }
 
 }
