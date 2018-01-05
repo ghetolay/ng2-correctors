@@ -1,6 +1,6 @@
-import { OpaqueToken, forwardRef, Provider, OnChanges, SimpleChanges } from '@angular/core';
+import { InjectionToken, forwardRef, Provider, OnChanges } from '@angular/core';
 
-export const CORRECTOR_TOKEN = new OpaqueToken('correctors');
+export const CORRECTOR_TOKEN = new InjectionToken<Corrector>('correctors');
 
 export interface CorrectorError {
    correctedValue?: any;
@@ -35,7 +35,7 @@ export abstract class AbstractCorrector implements Corrector, OnChanges {
     return this.corrector(value, prevValue, hasError);
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges() {
     this.corrector = this.createCorrector() || NULL_CORRECTOR;
     if (this.onChange)
       this.onChange();

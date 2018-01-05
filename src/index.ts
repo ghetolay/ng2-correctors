@@ -4,6 +4,7 @@ export { CorrectorsValidator } from './correctors.validator';
 export * from './model';
 
 import { CorrectorFn } from './model';
+
 import { isNumber } from './correctors/isnumber';
 import { maxInt } from './correctors/maxint';
 import { maxLength } from './correctors/maxlength';
@@ -14,4 +15,4 @@ export const Correctors = {
 	maxInt: maxInt,
 	maxLength: maxLength,
 	minLength: minLength
-}
+};

@@ -1,4 +1,4 @@
-import { Directive, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Directive, Input, OnChanges } from '@angular/core';
 
 import { CorrectorFn, CorrectorError, AbstractCorrector, correctorProvider } from '../model';
 
@@ -39,14 +39,14 @@ export class MaxIntCorrector extends AbstractCorrector implements OnChanges {
 
   	implicits: CorrectorFn[];
 
-  	ngOnChanges(changes: SimpleChanges) {
+  	ngOnChanges() {
     	this.length = this.maxInt_ == null || this.maxInt_ == undefined ?
       		null : this.maxInt_.toString().length;
 
     	this.implicits = this.length == null ? [] : [maxLength(this.length)];
     	this.implicits.push(isNumber());
 
-    	super.ngOnChanges(changes);
+    	super.ngOnChanges();
   	}
 
   	/*

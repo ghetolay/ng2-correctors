@@ -32,7 +32,7 @@ export class IfCorrErrors implements OnChanges, OnDestroy {
           this.show();
           this.view.context['errors'] = err;
         }),
-        this.correctors.onValid.subscribe( (v: string) => {
+        this.correctors.onValid.subscribe( () => {
           this.hide();
         })
       ];

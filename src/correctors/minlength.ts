@@ -1,9 +1,9 @@
-import { Directive, Input, Renderer, ElementRef, OnChanges, forwardRef } from '@angular/core';
+import { Directive, Input } from '@angular/core';
 
 import { CorrectorFn, CorrectorError, AbstractCorrector, correctorProvider } from '../model';
 
 export function minLength(minLength: number, placeholder: string): CorrectorFn {
-	return (value: any, prevValue: any, hasError: boolean, ): CorrectorError | undefined => {
+	return (value: any ): CorrectorError | undefined => {
 		value = value || '';
 
 		let lengthDiff = minLength - value.length;

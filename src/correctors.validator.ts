@@ -1,4 +1,4 @@
-import { OpaqueToken, forwardRef, Directive, OnInit, OnDestroy, Optional, Inject, Renderer, ElementRef, Output, EventEmitter, isDevMode } from '@angular/core';
+import { forwardRef, Directive, Optional, Inject, Output, EventEmitter, isDevMode } from '@angular/core';
 
 import { NG_VALIDATORS, Validator, FormControl } from '@angular/forms';
 
@@ -18,14 +18,11 @@ export class CorrectorsValidator implements Validator {
   @Output() onError = new EventEmitter<{}>();
   @Output() onValid = new EventEmitter<string>();
 
-  private el: HTMLInputElement;
   private prevValue: any = null;
-  private unlisten: Function;
 
   private correctors: Corrector[];
 
-  constructor(private renderer: Renderer, @Optional() @Inject(CORRECTOR_TOKEN) correctors: Corrector[], elRef: ElementRef) {
-    this.el = elRef.nativeElement;
+  constructor( @Optional() @Inject(CORRECTOR_TOKEN) correctors: Corrector[]) {
 
     if (isDevMode) {
       if (!correctors)

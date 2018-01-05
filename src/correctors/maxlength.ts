@@ -1,9 +1,9 @@
-import { Directive, Input, Renderer, ElementRef, OnChanges, forwardRef } from '@angular/core';
+import { Directive, Input } from '@angular/core';
 
 import { CorrectorFn, CorrectorError, AbstractCorrector, correctorProvider } from '../model';
 
 export function maxLength(maxLength: number): CorrectorFn {
-  return (value: any, prevValue: any, hasError: boolean, ): CorrectorError | undefined => {
+  return (value: any ): CorrectorError | undefined => {
     if(value && value.length > 0) {
       let lengthDiff = value.length - maxLength;
       if (lengthDiff > 0)
